@@ -10,4 +10,5 @@ Your goal is to achieve the highest score by arranging gifts in a way that they 
 - Lively and vibrant New Year-themed graphics.
 - Intuitive controls, suitable for all ages.
 - Compete for records in the leaderboard.
+
 Are you ready to help Santa and his magical helpers in this New Year adventure? Dive into the holiday spirit with "Santa's Sleigh: Gift Rush"!
