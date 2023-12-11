@@ -75,6 +75,7 @@ public class GameController : MonoBehaviour
         if (isPlayerWon)
         {
             ChangeScene("WinScene");
+            AudioManagerScript.Instance.PlaySFX(1);
             if (currentLevel < levelsArraySize - 1)
             {
                 currentLevel++;
@@ -83,6 +84,7 @@ public class GameController : MonoBehaviour
         else
         {
             ChangeScene("FailureScene");
+            AudioManagerScript.Instance.PlaySFX(0);
         }
     }
     private void InitializeGame()
