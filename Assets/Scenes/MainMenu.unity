@@ -1653,6 +1653,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayerWon: 0
+  triesOfLevel: 3
   levels:
   - Level1
   - Level2

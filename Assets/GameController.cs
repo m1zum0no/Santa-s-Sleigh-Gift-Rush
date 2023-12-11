@@ -7,7 +7,9 @@ public class GameController : MonoBehaviour
 {
     public static GameController Instance;
     private bool isGamePaused = false;
+    public int triesLeft;
     public bool isPlayerWon = false;
+    [SerializeField] int triesOfLevel;
     [SerializeField] string[] levels;
     [SerializeField] int levelsArraySize;
 
@@ -24,6 +26,7 @@ public class GameController : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            triesLeft = triesOfLevel;
             DontDestroyOnLoad(gameObject);
             InitializeGame();
         }
@@ -37,11 +40,7 @@ public class GameController : MonoBehaviour
     {
         isPlayerWon = status;
     }
-    public void ShowAdAndPauseGame()
-    {
-        PauseGame();
-        ShowAd();
-    }
+
     private void PauseGame()
     {
         isGamePaused = true;
@@ -55,24 +54,7 @@ public class GameController : MonoBehaviour
         Time.timeScale = 1;
         // Дополнительные действия для возобновления игры
     }
-
-    private void ShowAd()
-    {
-        OnAdClosed();
-        // Здесь код для показа рекламы
-        // Например, вызов метода показа рекламы из вашего рекламного SDK
-
-        // После показа рекламы, возможно, вам нужно будет возобновить игру
-        // Это можно сделать в колбэке, который вызывается после завершения показа рекламы
-        // Например:
-        // AdManager.ShowInterstitialAd(OnAdClosed);
-    }
-
-    // Этот метод можно вызвать после закрытия рекламы
-    private void OnAdClosed()
-    {
-        ResumeGame();
-    }
+   
     private void InitializeGame()
     {
         // Здесь код для инициализации игры, например, загрузка сохраненных данных
@@ -91,9 +73,12 @@ public class GameController : MonoBehaviour
 
     public void LevelEnding()
     {
+        triesLeft--;
+        Scene currentScene = SceneManager.GetActiveScene();
         if (isPlayerWon)
         {
             ChangeScene("WinScene");
+            triesLeft = triesOfLevel;
             AudioManagerScript.Instance.PlaySFX(1);
             isPlayerWon = false;
             if (currentLevel < levelsArraySize - 1)
@@ -101,10 +86,15 @@ public class GameController : MonoBehaviour
                 currentLevel++;
             }
         }
-        else
+        else if (triesLeft <= 0)
         {
             ChangeScene("FailureScene");
+            triesLeft = triesOfLevel;
             AudioManagerScript.Instance.PlaySFX(0);
+        }
+        else
+        {
+            ChangeScene(currentScene.name);
         }
     }
 
@@ -137,7 +127,28 @@ public class GameController : MonoBehaviour
         // Обновление состояния кнопки "Продолжить"
         continueButton.SetActive(currentLevel > 0);
     }
+ /*public void ShowAdAndPauseGame()
+    {
+        PauseGame();
+        ShowAd();
+    }
+    private void ShowAd()
+    {
+        OnAdClosed();
+        // Здесь код для показа рекламы
+        // Например, вызов метода показа рекламы из вашего рекламного SDK
 
+        // После показа рекламы, возможно, вам нужно будет возобновить игру
+        // Это можно сделать в колбэке, который вызывается после завершения показа рекламы
+        // Например:
+        // AdManager.ShowInterstitialAd(OnAdClosed);
+    }
+
+    // Этот метод можно вызвать после закрытия рекламы
+    private void OnAdClosed()
+    {
+        ResumeGame();
+    }*/
     public void UpdateUI()
     {
         // Обновление UI в зависимости от состояния игры

@@ -6,10 +6,14 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] TMP_Text timer;
+    [SerializeField] TMP_Text triesLeft;
+    int triesInInt;
     float counter;
     [SerializeField] float startCounter;
     void Start()
     {
+        triesInInt = GameController.Instance.triesLeft;
+        triesLeft.SetText(triesInInt.ToString());
         counter = startCounter;
     }
 
